@@ -4,11 +4,11 @@ module Api
       class AlbumsController < Api::V1::ApplicationController
         # skip_before_action :authenticate, only: %i[home random show index]
         def create
-          result = Quizzes::Operations.new_quiz(params, @current_user)
+          result = Albums::Operations.new_quiz(params, @current_user)
           params[:questions]
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
-            quiz: QuizBlueprint.render_as_hash(result.payload),
+            album: AlbumBlueprint.render_as_hash(result.payload),
             status: 201
           }
           render_success(payload: payload)
@@ -18,7 +18,7 @@ module Api
           quizzes = Quiz.all
 
           payload = {
-            quiz: QuizBlueprint.render_as_hash(quizzes),
+            album: AlbumBlueprint.render_as_hash(quizzes),
               status: 200
           }
           render_success(payload: payload)
